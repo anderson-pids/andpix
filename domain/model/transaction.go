@@ -31,7 +31,7 @@ type Transaction struct {
 	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" valid:"notnull"`
 	Amount            float64  `json:"amount" gorm:"type:float" valid:"notnull"`
 	PixKeyTo          *PixKey  `valid:"-"`
-	PixKeyIdTo        string   `gorm:"column:pix_key_id_to;type:uuid;" valid:"notnull"`
+	PixKeyIDTo        string   `gorm:"column:pix_key_id_to;type:uuid;" valid:"notnull"`
 	Status            string   `json:"status" gorm:"type:varchar(20)" valid:"notnull"`
 	Description       string   `json:"description" gorm:"type:varchar(255)" valid:"notnull"`
 	CancelDescription string   `json:"cancel_description" gorm:"type:varchar(255)" valid:"-"`
@@ -48,7 +48,7 @@ func (t *Transaction) isValid() error {
 		return errors.New("invalid status for the transaction")
 	}
 
-	if t.PixKeyTo.AccoundId == t.AccountFrom.ID {
+	if t.PixKeyTo.AccoundID == t.AccountFrom.ID {
 		return errors.New("the source and destination account cannot be the same")
 	}
 
@@ -65,7 +65,7 @@ func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, desc
 		AccountFromID: accountFrom.ID,
 		Amount:        amount,
 		PixKeyTo:      pixKeyTo,
-		PixKeyIdTo:    pixKeyTo.ID,
+		PixKeyIDTo:    pixKeyTo.ID,
 		Status:        TransactionPending,
 		Description:   description,
 	}
